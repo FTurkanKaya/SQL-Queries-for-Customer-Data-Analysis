@@ -15,6 +15,9 @@ DISTRICTID INT NULL,                  -- District ID, kan NULL zijn (als er geen
 TELNR1 VARCHAR(15) NULL,              -- Telefoonnummer 1, kan NULL zijn (als de persoon geen telefoonnummer heeft)
 TELNR2 VARCHAR(15) NULL               -- Telefoonnummer 2, kan NULL zijn (als de persoon geen tweede telefoonnummer heeft)
 
+CONSTRAINT FK_CITY FOREIGN KEY (CITYID) REFERENCES CITY(ID), -- Verwijzing naar de CITY
+CONSTRAINT FK_DISTRICTID FOREIGN KEY (DISTRICTID) REFERENCES DISTRICT(ID), -- Verwijzing naar de DISTRICT
+
 )  
 --*******************************************************************************************   
 
@@ -80,7 +83,7 @@ group by ct.CITY
 -- Het datatype moet VARCHAR(50) zijn.
 
 ALTER TABLE CUSTOMERS
-ADD AGEGROUP VARCHAR(50) NULL;
+ADD AGEGROUP VARCHAR(50) NULL
 --*******************************************************************************************
 
 -- 10-Werk het AGEGROUP-veld bij in leeftijdsgroepen: 20-35 jaar, 36-45 jaar, 46-55 jaar, 55-65 jaar, en ouder dan 65 jaar.
@@ -94,7 +97,8 @@ SET AGEGROUP = CASE
     WHEN DATEDIFF(YEAR, BIRTHDATE, GETDATE()) > 65 THEN '65+'
     ELSE 'Unknown'  
 END
-WHERE AGEGROUP IS NULL;
+WHERE AGEGROUP IS NULL
+
 
 select NAMESURNAME, BIRTHDATE, AGEGROUP from CUSTOMERS
 order by AGEGROUP
@@ -116,7 +120,7 @@ SELECT
     SUBSTRING(TELNR1, 2, 3) AS AreaCode1, 
     TELNR2,
     SUBSTRING(TELNR2, 2, 3) AS AreaCode2
-FROM CUSTOMERS;
+FROM CUSTOMERS
 
 --*******************************************************************************************
 /*
@@ -131,26 +135,29 @@ FROM (
     SELECT 
         ID,
         CASE 
-            WHEN SUBSTRING(TELNR1, 2, 2) IN ('50', '55') THEN 'X Telecomoperator'
-            WHEN SUBSTRING(TELNR1, 2, 2) = '54' THEN 'Y Telecomoperator'
-            WHEN SUBSTRING(TELNR1, 2, 2) = '53' THEN 'Z Telecomoperator'
+            WHEN SUBSTRING(TELNR1, 2, 2) = '50' THEN 'X Telecomoperator'
+			WHEN SUBSTRING(TELNR1, 2, 2) = '53' THEN 'Y Telecomoperator'
+            WHEN SUBSTRING(TELNR1, 2, 2) = '54' THEN 'Z Telecomoperator'
+            WHEN SUBSTRING(TELNR1, 2, 2) = '55' THEN 'W Telecomoperator'
             ELSE 'Unknown'
         END AS Operator
     FROM CUSTOMERS
 
-    UNION
+    UNION 
 
     SELECT 
         ID,
         CASE 
-            WHEN SUBSTRING(TELNR2, 2, 2) IN ('50', '55') THEN 'X Telecomoperator'
-            WHEN SUBSTRING(TELNR2, 2, 2) = '54' THEN 'Y Telecomoperator'
-            WHEN SUBSTRING(TELNR2, 2, 2) = '53' THEN 'Z Telecomoperator'
+            WHEN SUBSTRING(TELNR2, 2, 2) = '50' THEN 'X Telecomoperator'
+			WHEN SUBSTRING(TELNR2, 2, 2) = '53' THEN 'Y Telecomoperator'
+            WHEN SUBSTRING(TELNR2, 2, 2) = '54' THEN 'Z Telecomoperator'
+            WHEN SUBSTRING(TELNR2, 2, 2) = '55' THEN 'W Telecomoperator'
             ELSE 'Unknown'
         END AS Operator
     FROM CUSTOMERS
 ) AS AllNumbers
-GROUP BY Operator;
+GROUP BY Operator
+
 
 /*
  Een functie die netnummers omzet naar operatornamen kan worden gedefinieerd 
@@ -192,7 +199,7 @@ FROM (
         dbo.GetOperator(SUBSTRING(TELNR2, 2, 2)) AS Telecomoperator
     FROM CUSTOMERS
 ) AS AllOperators
-GROUP BY Telecomoperator;
+GROUP BY Telecomoperator
 
 
 --*******************************************************************************************
