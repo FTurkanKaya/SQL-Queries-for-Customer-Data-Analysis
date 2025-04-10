@@ -30,6 +30,10 @@ De CASE-expressie wordt gebruikt om voorwaardelijke logica toe te passen binnen 
 ## **7. COUNT()
 De COUNT()-functie wordt gebruikt om het aantal rijen (bijvoorbeeld het aantal klanten) te tellen binnen een bepaalde groep of voor een bepaalde kolom. Dit is handig voor het berekenen van het aantal klanten in verschillende steden of districten.
 
+## **SQL Server Functie: GetOperator
+Dit project bevat een SQL Server functie die telecomoperators bepaalt op basis van de prefix van een telefoonnummer. De functie GetOperator retourneert de bijbehorende operator voor de gegeven prefix (bijvoorbeeld, 50 voor X Telecomoperator).
+De functie kan gebruikt worden om de prefixen van telefoonnummers te analyseren en het aantal klanten per operator te groeperen.
+
 ## **8. ROW_NUMBER()
 De ROW_NUMBER()-functie wordt gebruikt om een rijnummer toe te wijzen aan de resultaten van een query, op basis van een opgegeven volgorde. Dit wordt vaak gebruikt om bijvoorbeeld het district met de meeste klanten binnen elke stad te vinden door de rijen te nummeren en vervolgens de bovenste rij te selecteren.
 
