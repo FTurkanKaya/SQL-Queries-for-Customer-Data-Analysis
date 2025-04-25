@@ -57,6 +57,7 @@ where CITYID in (select ID from CITIES
 select ct.CITY, count(c.ID) as AantalKlanten from CUSTOMERS c
 join CITIES ct on ct.ID = c.CITYID
 group by ct.CITY
+order by AantalKlanten Desc
 --*******************************************************************************************
 
 -- 7- Haal steden op waar we meer dan 10 klanten hebben, inclusief het aantal klanten, en sorteer deze van hoog naar laag op klantenaantal.
@@ -226,7 +227,7 @@ FROM (
     GROUP BY c.CITY, d.DISTRICT
 ) AS RankedDistricts
 WHERE RowNum = 1
-ORDER BY CITY
+ORDER BY AantalKlanten desc
 
 -- Alle wijken sorteren op aantalklanten
 SELECT
@@ -237,7 +238,7 @@ FROM CUSTOMERS cs
 JOIN DISTRICT d ON d.ID = cs.DISTRICTID
 JOIN CITIES c ON c.ID = d.CITYID
 GROUP BY c.CITY, d.DISTRICT
-ORDER BY c.CITY, COUNT(cs.ID) DESC
+ORDER BY c.CITY, COUNT(cs.ID) Desc
 
 -- De wijken sorteren op basis van het aantal per gewenste stad. 
 SELECT
@@ -252,7 +253,7 @@ GROUP BY c.CITY, d.DISTRICT
 ORDER BY COUNT(cs.ID) DESC, c.CITY, d.DISTRICT;
 
 
---Schrijf een query die de geboortedag van de klanten toont als dag van de week (maandag, dinsdag, woensdag, etc.).
+--15 Schrijf een query die de geboortedag van de klanten toont als dag van de week (maandag, dinsdag, woensdag, etc.).
 SELECT 
     NAMESURNAME, BIRTHDATE,
     DATENAME(WEEKDAY, BIRTHDATE) AS BirthDayOfWeek
